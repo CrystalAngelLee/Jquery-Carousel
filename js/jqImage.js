@@ -104,7 +104,7 @@ $(document).ready(function() {
     index = index === imageLen ? 0 : index;
     imageChange()
   }
-  var timer = null;
+  var timer = null, onPreview = false;
 	timer = setInterval(autoPlay,4000);
 
   /************************* 点击列表图片轮播到指定位置 *************************/
@@ -127,10 +127,12 @@ $(document).ready(function() {
 
   /************************* 鼠标移动事件轮播处理 *************************/
   prevBtn.onmouseover = nextBtn.onmouseover = showImage.onmouseover = function() {
+    if (onPreview) return
     clearInterval(timer);
   }
 
   prevBtn.onmouseout = nextBtn.onmouseout = showImage.onmouseout = function() {
+    if (onPreview) return
     timer = setInterval(autoPlay,4000);
   }
 
@@ -139,10 +141,14 @@ $(document).ready(function() {
     showImageLi[j].onclick = function() {
       showZoomImg(images, index, {
         onRemove: function() {
+          onPreview = false
           timer = setInterval(autoPlay,4000);
+        },
+        onShow: function() {
+          onPreview = true
+          clearInterval(timer);
         }
       })
-      clearInterval(timer);
     };
   }
 })

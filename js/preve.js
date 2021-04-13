@@ -1,6 +1,7 @@
 function showZoomImg(images, index, options) {
   var containerCls = 'imagePrevewLayout'
   var container = document.getElementsByClassName(containerCls)[0] || ''
+  if (options && typeof options.onShow === 'function') options.onShow()
 
   if (!container) {
     const container = "<div class="+ containerCls +">" + 
